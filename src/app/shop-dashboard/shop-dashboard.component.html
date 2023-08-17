@@ -1,0 +1,12 @@
+<app-navbar></app-navbar>
+<div class="items-container m-3">
+    <div class="card-wrapper m-1" *ngFor="let item of itemList">
+        <div class="card">
+            <img [src]="item.url" class="card-img-top">
+            <div class="card-body">
+                <h5 class="card-title">{{item.itemName}}</h5>
+                <h6 class="card-subtitle mb-2 text-body-secondary">$ {{item.itemPrice}}</h6>
+            </div>
+        </div>
+    </div>
+</div>

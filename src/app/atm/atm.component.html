@@ -1,0 +1,45 @@
+<div class="atm-container container my-3">
+
+    <h2>ATM Simulator</h2>
+    <div>
+        <h3>Available Denominations:</h3>
+        <table class="table">
+            <tbody>
+                <tr *ngFor="let denomination of availableDenominations; let i=index">
+                    <td>{{ denomination }}</td>
+                    <td>{{ denominations[denomination] }}</td>
+                    <td>
+                        <input type="number" [(ngModel)]="depositedDenominations[i]">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <button class="btn btn-primary m-3" (click)="deposit()">Deposit</button>
+        <!-- <ul>
+    <li *ngFor="let denomination of availableDenominations">
+      {{ denomination }}: {{ denominations[denomination] }}
+    </li>
+  </ul> -->
+    </div>
+    <div class="mt-5">
+        <h3>Withdraw Money</h3>
+        <label>Enter Amount: </label>
+        <input type="number" [(ngModel)]="withdrawAmount" />
+        <button (click)="withdraw()">Withdraw</button>
+        <div *ngIf="withdrawnDenominations.length > 0">
+            <h4>Withdrawn Denominations:</h4>
+            <ul>
+                <li *ngFor="let denomination of withdrawnDenominations">
+                    {{ denomination }}: {{ withdrawnDenominationCount[denomination] }}
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="log-wrapper">
+        <h3>Logs</h3>
+        <div class="log alert" [ngClass]="log.status=='success'? 'alert-success':'alert-danger'"
+            *ngFor="let log of logs" [innerHTML]="log.message">
+        </div>
+    </div>
+</div>
