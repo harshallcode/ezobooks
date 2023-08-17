@@ -50,33 +50,40 @@ export class AtmComponent {
   }
 
   withdraw() {
-    this.withdrawnDenominations = [];
-    this.withdrawnDenominationCount = {};
-
-    if (this.withdrawAmount <= 0) {
+    if (this.withdrawAmount <= 0 || this.withdrawAmount % 100 !== 0) {
       alert('Invalid withdrawal amount');
       return;
     }
 
-    let remainingAmount = this.withdrawAmount;
+    const remainingAmount = this.withdrawAmount;
+    let remainingBalance = remainingAmount;
+
+    this.withdrawnDenominations = [];
+    this.withdrawnDenominationCount = {};
 
     for (const denomination of this.availableDenominations) {
-      const notesNeeded = Math.floor(remainingAmount / denomination);
+      const notesNeeded = Math.floor(remainingBalance / denomination);
 
       if (notesNeeded > 0 && this.denominations[denomination] >= notesNeeded) {
         this.withdrawnDenominations.push(denomination);
         this.withdrawnDenominationCount[denomination] = notesNeeded;
 
         this.denominations[denomination] -= notesNeeded;
-        remainingAmount -= denomination * notesNeeded;
+        remainingBalance -= denomination * notesNeeded;
       }
     }
 
-    if (remainingAmount === 0) {
+    if (remainingBalance === 0) {
       this.withdrawAmount = 0;
       this.showWithdrawForm = false;
       alert('Withdrawal successful!');
     } else {
+      // Rollback denominations as withdrawal failed
+      for (const denomination of this.withdrawnDenominations) {
+        this.denominations[denomination] += this.withdrawnDenominationCount[denomination];
+      }
+      this.withdrawnDenominations = [];
+      this.withdrawnDenominationCount = {};
       alert('Insufficient denominations in the ATM');
     }
   }
