@@ -46,12 +46,12 @@ export class AtmComponent {
       ? this.denominations[100]
       : this.depositedDenominations[3];
 
-   this.logs.push({status: 'success', message: `Deposited 2000: ${this.denominations[2000]} 500: ${this.denominations[500]} 200: ${this.denominations[200]} 100: ${this.denominations[100]} <br> ${new Date()}`});
+   this.logs.unshift({status: 'success', message: `Deposited 2000: ${this.denominations[2000]} 500: ${this.denominations[500]} 200: ${this.denominations[200]} 100: ${this.denominations[100]} <br> ${new Date()}`});
   }
 
   withdraw() {
     if (this.withdrawAmount <= 0 || this.withdrawAmount % 100 !== 0) {
-      alert('Invalid withdrawal amount');
+      this.logs.unshift({status:'error',message:`Invalid Withdrawl Amount <br> ${new Date()}`} );
       return;
     }
 
@@ -65,7 +65,7 @@ export class AtmComponent {
       const notesNeeded = Math.floor(remainingBalance / denomination);
 
       if (notesNeeded > 0 && this.denominations[denomination] >= notesNeeded) {
-        this.withdrawnDenominations.push(denomination);
+        this.withdrawnDenominations.unshift(denomination);
         this.withdrawnDenominationCount[denomination] = notesNeeded;
 
         this.denominations[denomination] -= notesNeeded;
@@ -76,7 +76,7 @@ export class AtmComponent {
     if (remainingBalance === 0) {
       this.withdrawAmount = 0;
       this.showWithdrawForm = false;
-      alert('Withdrawal successful!');
+      this.logs.unshift({status:'success',message:`Withdrawl Successful <br> ${new Date()}`} );
     } else {
       // Rollback denominations as withdrawal failed
       for (const denomination of this.withdrawnDenominations) {
@@ -84,7 +84,7 @@ export class AtmComponent {
       }
       this.withdrawnDenominations = [];
       this.withdrawnDenominationCount = {};
-      alert('Insufficient denominations in the ATM');
+      this.logs.unshift({status:'error',message:`Withdrawl Failed <br> ${new Date()}`} );
     }
   }
 }

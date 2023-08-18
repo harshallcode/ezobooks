@@ -8,13 +8,15 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AtmComponent } from './atm/atm.component';
 import { FormsModule } from '@angular/forms';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ShopDashboardComponent,
     NavbarComponent,
-    AtmComponent
+    AtmComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
